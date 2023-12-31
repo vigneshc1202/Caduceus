@@ -1,11 +1,11 @@
 # Caduceus - A Health Checkup App
 Introducing Caduceus: Your Health, Your Way
-# Announcement!
+## Announcement!
 The source code and APK will be released online shortly.
 
-# *Top features*
+## *Top features*
 
-👩‍⚕️👨‍⚕️ **For Patients: Your Health in Your Hands**
+### 👩‍⚕️👨‍⚕️ **For Patients: Your Health in Your Hands**
 
 ✅ Book Appointments Effortlessly: Say goodbye to long waiting times! Schedule appointments with your preferred doctors at your convenience.
 
@@ -13,7 +13,7 @@ The source code and APK will be released online shortly.
 
 ✅ Emergency Calls Made Easy: In times of urgency, swift action is crucial. Our app provides a user-friendly interface for emergency calls, ensuring immediate assistance.
 
-👨‍⚕️👩‍⚕️ **For Doctors: Empower Your Practice**
+### 👨‍⚕️👩‍⚕️ **For Doctors: Empower Your Practice**
 
 💼 Track Your Earnings: Manage your finances effortlessly. Caduceus provides a streamlined system for doctors to monitor their earnings with ease.
 
@@ -21,7 +21,7 @@ The source code and APK will be released online shortly.
 
 👥 Join a Thriving Community: Connect with patients, collaborate with fellow healthcare professionals, and foster a supportive network within the Caduceus community.
 
-🎉 **Why Choose Caduceus?**
+### 🎉 **Why Choose Caduceus?**
 
 🔐 Security First: Your health data is precious. Caduceus ensures top-notch security measures to protect your sensitive information.
 
