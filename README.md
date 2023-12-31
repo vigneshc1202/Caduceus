@@ -1,8 +1,10 @@
 # Caduceus - A Health Checkup App
 Introducing Caduceus: Your Health, Your Way
-*App development journey?*
-It took 8-9months to learn and build this app. 
-*Top features*
+# Announcement!
+The source code and APK will be released online shortly.
+
+# *Top features*
+
 👩‍⚕️👨‍⚕️ **For Patients: Your Health in Your Hands**
 
 ✅ Book Appointments Effortlessly: Say goodbye to long waiting times! Schedule appointments with your preferred doctors at your convenience.
@@ -28,4 +30,10 @@ It took 8-9months to learn and build this app.
 🤝 A Holistic Approach to Healthcare: Caduceus is more than an app; it's a commitment to holistic healthcare, bringing patients and doctors closer for a healthier world.
 
 _Your Health, Your Way. Caduceus - Where Wellness Meets Technology._
+
+# *Journey...*
+
+The app was initially planned for a school project. Later as many new features were added into it, it was planned to publish it as a mobile app. The app was built using Python, Kivy and KivyMD frameworks.
+It took about 10 months to learn the frameworks needed to build the app and finally the source code will be released online.
+
 
