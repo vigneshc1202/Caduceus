@@ -1,0 +1,1823 @@
+<Tab>
+<TooltipMDIconButton@MDIconButton+MDTooltip>
+<MagicButton@MagicBehavior+MDIconButton>
+<MySwiper@MDSwiperItem>
+#:import Snackbar kivymd.uix.snackbar.Snackbar
+#:import MDSpinner kivymd.uix.spinner.MDSpinner
+# Custom Widgets -----------------------------------------------
+<AppoinBox>:
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "200dp"
+    MDBoxLayout:
+        spacing: "10dp"
+        MDRectangleFlatIconButton:
+            icon:'calendar'
+            text:'Select date'
+            on_release: 
+                root.calender()
+        MDRectangleFlatIconButton:
+            icon:'clock'
+            text:'Select time'
+            on_release: 
+                root.time()
+        MDIconButton:
+            icon:'refresh-circle'
+            on_release: root.reload()
+    MDBoxLayout:
+        spacing: "10dp"
+        MDLabel:
+            id:date_choosed
+            text:'date choose'
+            font_style:'Button'
+        MDLabel:
+            id:time_choosed
+            text:'time choose'
+            font_style:'Button'
+    MDLabel:
+        text:'KINDLY NOTE:'
+        font_style:'Caption'
+        italic:True
+    MDLabel:
+        text:'Once the appoinment is booked it will be sent for confirmation. Payment can be done once the booking is confirmed.'
+        font_style:'Caption'
+    MDRectangleFlatIconButton:
+        icon:'content-save-all'
+        text:'Save & Book'
+        on_press:root.book_appoin()
+<CommonChip@MDChip>
+    # Custom attribute.
+    text: ""
+    icon: ""
+    # Chip attribute.
+    type: "assist"
+    md_bg_color: "#8C665E"
+    line_color: "grey"
+    elevation: 1
+    shadow_softness: 2
+
+    MDChipLeadingIcon:
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: "#A0D991"
+
+    MDChipText:
+        text: root.text
+        theme_text_color: "Custom"
+        text_color: "#A0D991"
+# A Card used for Doctor screen to display all appoin.
+<AppoinCheckCard>:
+    pname:''
+    app_datetime2:''
+    statuss:''
+    emaill:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "340dp", "110dp"  
+    #height: "160dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .8
+        padding: [20,0,0,0]
+        spacing: '10dp'
+        #md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account'
+            size_hint:None,None
+            size:45,45
+            pos_hint: {"center_x": .1, "center_y": .2}
+        MDLabel:
+            id:pname
+            text: root.pname
+            #theme_text_color: 'Custom'
+            font_style:'H6'
+            #text_color: 1, 1, 1, 1
+        MDIconButton:
+            theme_text_color: 'Custom' 
+            icon: 'card-account-details'
+            disabled: True if root.ids.statuss.text=='appoinment---done' else False
+            pos_hint: {"center_x": .85, "center_y": .4} 
+            on_release: root.show_pdtls(root.ids.emaill.text)
+        MDIconButton: 
+            theme_text_color: 'Custom' 
+            icon: 'check'
+            disabled: False if root.ids.statuss.text=='processing' else True
+            pos_hint: {"center_x": .85, "center_y": .4} 
+            on_release: root.confirm_appoin(root.ids.emaill.text,root.ids.app_datetime2.text,root.ids.statuss.text)
+        MDIconButton:
+            icon:'cancel'
+            disabled: False if root.ids.statuss.text=='processing' else True
+            pos_hint: {"center_x": .65, "center_y": .4}
+            on_release: root.reject_appoin(root.ids.emaill.text,root.ids.app_datetime2.text,root.ids.statuss.text)
+    MDLabel:
+        id:app_datetime2
+        font_style:'Body1'
+        text: root.app_datetime2
+        size_hint_y:None
+        color:0,0,0,1
+        pos_hint: {"center_x": .4, "center_y": .5}
+        #height:self.texture_size[1]
+        halign:'center'
+        theme_text_color: 'Custom'
+        text_color: 1, 1, 1, 1
+    MDBoxLayout:
+        size_hint_y: .5
+        padding: [20,0,0,0]
+        spacing: '10dp'
+        MDLabel:
+            id:statuss
+            text:root.statuss
+            font_style:'Body2'
+            color:1,1,1,1
+        MDLabel:
+            id:emaill
+            text:root.emaill
+            font_style:'Body2'
+            color:0,0,0,0
+        MDRectangleFlatIconButton:
+            icon:'account-multiple-check'
+            text:'Done'
+            #disabled: False if root.ids.statuss.text=='confirmed-booking' else True
+            on_release: root.appoin_done(root.ids.emaill.text,root.ids.app_datetime2.text,root.ids.statuss.text)
+<SettingsBox>:
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "475dp"
+    pos_hint: {"center_x": .5, "center_y": .475}
+    MDBoxLayout:
+        size_hint_y: .1
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account' if root.type=='p' else 'doctor'
+            size_hint:None,None
+            size:25,25
+            pos_hint: {"center_x": .1, "center_y": .5}
+        MDLabel:
+            text: 'Settings'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'close' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press:   
+    MDFloatLayout:
+        MDRectangleFlatIconButton:
+            icon:'shape'
+            text:'Edit personal details'
+            pos_hint: {'center_x': 0.5,'center_y': 0.9}
+            on_press: app.redt('paccount_screen') if root.type=='p' else app.redt('daccount_screen')
+        MDLabel:
+            text:'Add Emergency contacts'
+            pos_hint: {"center_x": .5, "center_y": .775}
+        MDTextField:
+            id:amb_no
+            hint_text:'Ambulance'
+            text:'108'
+            required:True
+            size_hint:1,None
+            height:"5dp"
+            mode:'fill'
+            input_filter:'int'
+            icon_left:'ambulance'
+            max_text_length:10
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .65}
+        MDTextField:
+            id:doc_no
+            max_text_length:3
+            hint_text:'Doctor'
+            required:True
+            size_hint:1,None
+            mode:'fill'
+            height:"5dp"
+            max_text_length:10
+            icon_left:'doctor'
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .525}
+        MDTextField:
+            id:home_no
+            max_text_length:10
+            hint_text:'Home'
+            required:True
+            mode:'fill'
+            size_hint:1,None
+            icon_left:'phone'
+            height:"5dp"
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .4}
+        MDRectangleFlatIconButton:
+            text:'Save'
+            icon:'content-save-all'
+            pos_hint:{'center_x':.5,'center_y':.275}
+            on_release: root.save_emergency()
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: '15dp'
+            pos_hint:{'center_x':.5,'center_y':.65}
+            MDRectangleFlatIconButton:
+                text:'Logout'
+                icon:'logout-variant'
+                on_release: root.logout_user(0)
+            MDRectangleFlatIconButton:
+                text:'Delete Account'
+                icon:'account-multiple-remove'
+                on_release: app.delete_user(0)
+        MDRectangleFlatIconButton:
+            icon:'theme-light-dark'
+            text:'Change Theme'
+            pos_hint: {'center_x': 0.5,'center_y': 0.1}
+            on_press:app.change_theme()
+<DSettingsBox>:
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "475dp"
+    pos_hint: {"center_x": .5, "center_y": .45}
+    MDBoxLayout:
+        size_hint_y: .1
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account' if root.type=='p' else 'doctor'
+            size_hint:None,None
+            size:25,25
+            pos_hint: {"center_x": .1, "center_y": .5}
+        MDLabel:
+            text: 'Settings'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'reload' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press: root.getvalues()
+    MDFloatLayout:
+        MDRectangleFlatIconButton:
+            icon:'shape'
+            text:'Edit personal details'
+            pos_hint: {'center_x': 0.5,'center_y': 0.9}
+            on_press: app.redt('paccount_screen') if root.type=='p' else app.redt('daccount_screen')
+        MDLabel:
+            text:'Add Other details'
+            pos_hint: {"center_x": .5, "center_y": .775}
+        MDTextField:
+            id:fee_change
+            hint_text:'Fees per consultation'
+            required:True
+            size_hint:1,None
+            height:"5dp"
+            mode:'fill'
+            input_filter:'int'
+            icon_left:'currency-inr'
+            max_text_length:10
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .65}
+        MDTextField:
+            id:about_me
+            max_text_length:3
+            hint_text:'About me'
+            required:True
+            size_hint:1,None
+            mode:'fill'
+            height:"5dp"
+            max_text_length:50
+            icon_left:'odnoklassniki'
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .475}
+        MDRectangleFlatIconButton:
+            text:'Save'
+            icon:'content-save-all'
+            pos_hint:{'center_x':.5,'center_y':.3}
+            on_release: root.save_doc_dtls()
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: '15dp'
+            pos_hint:{'center_x':.5,'center_y':.65}
+            MDRectangleFlatIconButton:
+                text:'Logout'
+                icon:'logout-variant'
+                on_release: root.logout_user(0)
+            MDRectangleFlatIconButton:
+                text:'Delete Account'
+                icon:'account-multiple-remove'
+                on_release: app.delete_user(0)
+        MDRectangleFlatIconButton:
+            icon:'theme-light-dark'
+            text:'Change Theme'
+            pos_hint: {'center_x': 0.5,'center_y': 0.1}
+            on_press:app.change_theme()
+<AboutUsBox>:
+    orientation: 'vertical'
+    MDFloatLayout:
+        FitImage:
+            source:'load_bg.png'
+        AsyncImage:
+            source:'logo1.png'
+            anim_delay:0.1
+            size_hint:None, None
+            size:'150dp','150dp'
+            pos_hint:{'center_x':.5,'center_y':.8}
+        MDSeparator:
+            height: "1dp"
+        MDLabel:
+            text:'Caduceus'
+            bold:True
+            name_theme:'Primary'
+            font_style:'H5'
+            font_name:'Sylfaen'
+            pos_hint:{'center_x':.5,'center_y':.65}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+        MDLabel:
+            text:'Our health checkup app, built with KivyMD and Python, is designed to bring patients and doctors together'
+            font_style:'Caption'
+            font_name:'Comic'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.5}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'        
+        MDLabel:
+            text:'Key features for patients:'
+            font_style:'Button'
+            font_name:'Sylfaen'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.45}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+        MDLabel:
+            text:'Easy Appoinment booking, Health monitoring, Emergency call interface'
+            font_style:'Caption'
+            font_name:'Comic'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.4}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+        MDLabel:
+            text:'Key features for doctors:'
+            font_style:'Button'
+            font_name:'Sylfaen'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.35}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+        MDLabel:
+            text:'Digital appoinment management, Earnings tracker'
+            font_style:'Caption'
+            font_name:'Comic'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.3}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+        MDLabel:
+            text:'Connect with us @ help@caduceus.com'
+            font_style:'Caption'
+            font_name:'Comic'
+            bold:True
+            pos_hint:{'center_x':.5,'center_y':.1}
+            color:0,0,0,1
+            size_hint_y: None
+            halign:'center'
+<TileView>:
+    id:banner_img
+    txt:''
+    icon:''
+    icon2:''
+    radius: 24
+    box_radius: [0, 0, 24, 24]
+    box_color: 1, 1, 1, .2
+    source:root.icon
+    pos_hint: {"center_x": .5, "center_y": .7}
+    size_hint: None, None
+    size: "250dp", "200dp"
+    MDIconButton:
+        id:banner_icon
+        icon: root.icon2
+        #icon:root.icon2
+        theme_icon_color: "Custom"
+        icon_color: 0,0,0,1
+        pos_hint: {"center_y": .5}
+        on_release: root.delete_file(root.icon) if root.icon2=='delete-empty' else None
+
+    MDLabel:
+        id:banner_text
+        text:root.txt
+        text_color:0,0,0,1
+        bold: True
+
+# used to get calculate bp,bmi etc.
+<SampCard@MDCard>:
+    title:''
+    tb1:''
+    tb1_icon:''
+    tb2:''
+    tb2_icon:''
+    button_txt:''
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "180dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+    MDBoxLayout:
+        size_hint_y: .2
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDLabel:
+            text: root.title
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'close'
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press:root.clear_value()    
+    MDFloatLayout:
+        MDTextField:
+            id:tb1
+            hint_text: root.tb1
+            size_hint_x: .9
+            icon_left: root.tb1_icon
+            pos_hint: {'center_x': .5, 'center_y': .8}
+            required:True
+        MDTextField:
+            id:tb2
+            hint_text: root.tb2
+            size_hint_x: .9
+            required:True
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            icon_left:root.tb2_icon
+        MDRectangleFlatButton:
+            text: root.button_txt
+            size_hint_x: .9
+            pos_hint: {'center_x': .5, 'center_y': .2} 
+            on_release: root.check(root.type)
+# used to get more details of user. 
+<GetDataCard>:
+    icon:''
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "475dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .1
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account' if root.icon=='p' else 'doctor'
+            size_hint:None,None
+            size:25,25
+            pos_hint: {"center_x": .1, "center_y": .5}
+        MDLabel:
+            text: 'Setup your profile!'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'close' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press:   
+    MDFloatLayout:
+        MDTextField:
+            id:name
+            hint_text:'Enter name:'
+            text:'Dr. ' if root.icon!='p' else ''
+            required:True
+            size_hint:1,None
+            height:"5dp"
+            mode:'fill'
+            icon_left:'odnoklassniki'
+            max_text_length:25
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDTextField:
+            id:age
+            max_text_length:3
+            hint_text:'Enter age:'
+            required:True
+            size_hint:1,None
+            mode:'fill'
+            height:"5dp"
+            icon_left:'plus-circle'
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .775}
+            
+        MDTextField:
+            id:phn
+            max_text_length:10
+            hint_text:'Enter phone number:'
+            required:True
+            mode:'fill'
+            size_hint:1,None
+            icon_left:'phone'
+            height:"5dp"
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .65}
+            
+        MDTextField:
+            id:addr
+            hint_text:'Enter address:'
+            required:True
+            mode:'fill'
+            icon_left:'navigation'
+            helper_text:'Enter full address'
+            helper_text_mode:'on_error'
+            size_hint:1,None
+            height:"5dp"
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .525}
+        MDTextField:
+            id:qlf
+            hint_text:'Enter qualification:'
+            required:True
+            mode:'fill'
+            size_hint:1,None
+            disabled:True if root.icon=='p' else None
+            height:"5dp"
+            icon_left:'certificate'
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .4}
+        MDTextField:
+            id:exp
+            hint_text:'Enter your experience:'
+            required:True
+            mode:'fill'
+            input_filter:'int'
+            disabled:True if root.icon=='p' else None
+            size_hint:1,None
+            icon_left:'doctor'
+            height:"5dp"
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .275}
+                #root.ids.email_veri.text = root.manager.get_screen("p_login_screen").ids.p_email.text
+        MDRectangleFlatButton:
+            text:'Save & Continue'
+            pos_hint:{'center_x':.5,'center_y':.1}
+            on_release: root.check(root.type)
+# used to login/signin to the a/c.
+<LoginCard@MDCard>
+    title:''
+    redt:''
+    button_txt:''
+    prev:''
+    type:''
+    email:''
+    passw:''
+    sname:''
+    id:login_card
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "180dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+
+    MDBoxLayout:
+        size_hint_y: .2
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'chevron-left'
+            pos_hint: {'center_x': .1, 'center_y': .5} 
+            on_press: app.redt(root.prev) 
+        MDLabel:
+            text: root.title
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'help' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press: app.redt('help_screen') 
+    MDFloatLayout:
+        MDTextField:
+            id:emailid
+            hint_text: 'Email'
+            size_hint_x: .9
+            icon_left: "email"
+            validator:'email'
+            pos_hint: {'center_x': .5, 'center_y': .8}
+            required:True
+        MDTextField:
+            id:passwd
+            hint_text: 'Set Password'
+            size_hint_x: .9
+            required:True
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            password:True
+            icon_left:'key-variant'
+        MDIconButton:
+            icon:'eye-off'
+            pos_hint:{'center_x': .87, 'center_y': .5} 
+            pos:passwd.width-self.width+dp(14),0
+            theme_text_color:'Hint'
+            on_release:
+                self.icon='eye' if self.icon=='eye-off' else 'eye-off'
+                passwd.password= False if passwd.password is True else True
+        MDRectangleFlatButton:
+            text: root.button_txt
+            size_hint_x: .9
+            pos_hint: {'center_x': .5, 'center_y': .2} 
+            on_release: 
+                root.process(root.sname)
+<GetDataCard2>:
+    icon:''
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "280dp", "400dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .1
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account' if root.icon=='p' else 'doctor'
+            size_hint:None,None
+            size:25,25
+            pos_hint: {"center_x": .1, "center_y": .5}
+        MDLabel:
+            text: 'Few more about yourself'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'close' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press:   
+    MDFloatLayout:
+        MDTextField:
+            id:fee
+            hint_text:'Enter fee:'
+            required:True
+            size_hint:1,None
+            height:"5dp"
+            mode:'fill'
+            helper_text:'Consultation fee per appoinment'
+            icon_left:'currency-inr'
+            max_text_length:5
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .7}
+        MDTextField:
+            id:about_me
+            max_text_length:60
+            hint_text:'About yourself:'
+            required:True
+            size_hint:1,None
+            mode:'fill'
+            height:"5dp"
+            icon_left:'doctor'
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .4}
+        MDRectangleFlatButton:
+            text:'Save & Continue'
+            pos_hint:{'center_x':.5,'center_y':.1}
+            on_release: root.check(root.type)
+# used to display doctor's details.
+<DocShowCard>:
+    name:''
+    qlf:''
+    exp:''
+    fee:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "340dp", "110dp"  
+    #height: "160dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .8
+        padding: [20,0,0,0]
+        #md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'doctor'
+            size_hint:None,None
+            size:45,45
+            pos_hint: {"center_x": .1, "center_y": .2}
+        MDLabel:
+            id:name
+            #text: '  '+ root.name
+            theme_text_color: 'Custom'
+            font_style:'H6'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'heart-outline' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press: self.icon='heart' if self.icon=='heart-outline' else 'heart-outline'
+    MDBoxLayout:
+        size_hint_y: .5
+        padding: [20,0,0,0]
+        MDLabel:
+            id:exp
+            #text: root.exp+' years of experience'
+            font_style:'Subtitle2'
+            size_hint_y:None
+            color:0,0,0,1
+            italic:True
+            pos_hint: {"center_x": .1, "center_y": .5}
+            height:self.texture_size[1]
+            halign:'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDLabel:
+            id:qlf
+            #text: root.qlf
+            font_style:'Subtitle2'
+            size_hint_y:None
+            color:0,0,0,1
+            italic:True
+            pos_hint: {"center_x": .19, "center_y": .5}
+            height:self.texture_size[1]
+            halign:'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+    MDFloatLayout:
+        MDRectangleFlatButton:
+            text:'Book'
+            pos_hint:{'center_x':.75,'center_y':.3}
+            on_release: root.appoin(root.ids.name.text,root.ids.email.text)
+        MDLabel:
+            id:fee
+            #text:'Total fee: '+root.fee
+            font_style:'Body1'
+            size_hint_y:None
+            color:0,0,0,1
+            pos_hint: {"center_x": .125, "center_y": .3}
+            height:self.texture_size[1]
+            halign:'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDLabel:
+            id:email
+            #text: root.qlf
+            font_style:'Subtitle2'
+            size_hint_y:None
+            color:0,0,0,0
+            italic:True
+            #pos_hint: {"center_x": .19, "center_y": .5}
+            height:self.texture_size[1]
+            halign:'center'
+<AppoinShowCard>:
+    dname:''
+    app_datetime:''
+    status:''
+    fee:''
+    emailid:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "340dp", "110dp"  
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .8
+        padding: [20,0,0,0]
+        #md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'doctor'
+            size_hint:None,None
+            size:45,45
+            pos_hint: {"center_x": .1, "center_y": .2}
+        MDLabel:
+            id:dname
+            text: root.dname
+            theme_text_color: 'Custom'
+            font_style:'H6'
+            text_color: 1, 1, 1, 1
+        MDIconButton:
+            icon:'delete-forever'
+            text_color: 1, 1, 1, 1 
+            disabled: False if root.ids.status.text=='processing' else True
+            pos_hint: {"center_x": .7, "center_y": .4}
+            on_release: root.cancelapp(root.ids.emailid.text,root.ids.app_datetime.text,root.ids.status.text)
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'card-account-details'
+            disabled: False if root.ids.status.text=='confirmed-booking' else True
+            pos_hint: {"center_x": .85, "center_y": .4} 
+            on_press: root.show_docdtls(root.ids.emailid.text)
+    MDLabel:
+        id:app_datetime
+        font_style:'Body1'
+        text:'ON:  '+root.app_datetime
+        size_hint_y:None
+        color:0,0,0,1
+        pos_hint: {"center_x": .4, "center_y": .5}
+        height:self.texture_size[1]
+        halign:'center'
+        theme_text_color: 'Custom'
+        text_color: 1, 1, 1, 1
+    MDBoxLayout:
+        size_hint_y: .5
+        padding: [20,0,0,0]
+        MDLabel:
+            id:fee
+            text:'Fee: Rs.'+root.fee
+            font_style:'Body1'
+            size_hint_y:None
+            bold:True
+            color:0,0,0,1
+            pos_hint: {"center_x": .065, "center_y": .3}
+            height:self.texture_size[1]
+            halign:'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDLabel:
+            id:emailid
+            text: root.emailid
+            #pos_hint: {"center_x": .9, "center_y": .3}
+            color:0,0,0,0
+        MDLabel:
+            id:status
+            text:'Status: '+root.status
+            size_hint_y:None
+            color:0,0,0,1
+            italic:True
+            pos_hint: {"center_x": .6, "center_y": .3}
+            height:self.texture_size[1]
+            halign:'center'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        
+<DisplayDataCard>:
+    icon:''
+    type:''
+    orientation: "vertical"
+    padding: "2dp"
+    size_hint: None, None
+    size: "275dp", "475dp"
+    pos_hint: {"center_x": .5, "center_y": .5}
+    MDBoxLayout:
+        size_hint_y: .1
+        padding: [15, 0, 0, 0]
+        md_bg_color: app.theme_cls.primary_color
+        MDIcon:
+            icon:'account' if root.icon=='p' else 'doctor'
+            size_hint:None,None
+            size:25,25
+            pos_hint: {"center_x": .1, "center_y": .5}
+        MDLabel:
+            text:'Your Profile'
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1
+        MDIconButton: 
+            theme_text_color: 'Custom'
+            text_color: 1, 1, 1, 1        
+            icon: 'refresh' 
+            pos_hint: {'center_x': .5, 'center_y': .5} 
+            on_press: root.getvalues(root.type)
+    MDFloatLayout:
+        MDTextField:
+            id:name
+            hint_text:'NAME'
+            required:True
+            size_hint:1,None
+            height:"5dp"
+            mode:'fill'
+            icon_left:'odnoklassniki'
+            #disabled:True #if root.check()==0 else False
+            max_text_length:25
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .9}
+        MDTextField:
+            id:age
+            max_text_length:3
+            hint_text:'AGE'
+            #text:root.get_texts(2)
+            required:True
+            size_hint:1,None
+            mode:'fill'
+            #disabled:True #if root.check()==0 else False
+            height:"5dp"
+            icon_left:'plus-circle'
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .775}
+            
+        MDTextField:
+            id:phn
+            max_text_length:10
+            hint_text:'PHONE NO.'
+            #text:root.get_texts(3)
+            required:True
+            mode:'fill'
+            #disabled:True #if root.check()==0 else False
+            size_hint:1,None
+            icon_left:'phone'
+            height:"5dp"
+            input_filter:'int'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .65}
+            
+        MDTextField:
+            id:addr
+            hint_text:'ADDRESS'
+            required:True
+            mode:'fill'
+            #text:root.get_texts(4)
+            #disabled:True #if root.check()==0 else False
+            icon_left:'navigation'
+            helper_text:'Enter full address'
+            helper_text_mode:'on_error'
+            size_hint:1,None
+            height:"5dp"
+            multiline:True
+            pos_hint: {"center_x": .5, "center_y": .525}
+        MDTextField:
+            id:qlf
+            hint_text:'QUALIFICATION'
+            required:True
+            mode:'fill'
+            #text:root.get_texts(5)
+            size_hint:1,None
+            disabled:True if  root.type=='p' else False
+            height:"5dp"
+            icon_left:'certificate'
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .4}
+        MDTextField:
+            id:exp
+            hint_text:'EXPERIENCE'
+            required:True
+            mode:'fill'
+            #text: root.get_texts(6)
+            disabled:True if root.type=='p' else False
+            size_hint:1,None
+            icon_left:'doctor'
+            height:"5dp"
+            multiline:False
+            pos_hint: {"center_x": .5, "center_y": .275}
+                #root.ids.email_veri.text = root.manager.get_screen("p_login_screen").ids.p_email.text
+        MDRectangleFlatButton:
+            text:'Edit & Save'
+            pos_hint:{'center_x':.5,'center_y':.1}
+            on_release: root.update(root.type)
+<AppTourScreen>:
+    name:'tour'
+    MDSwiper:
+        id:swiper
+        size_hint_y: None
+        height:root.height-dp(40)
+        y:root.height - self.height - dp(20)
+        #height: root.height - toolbar1.height - dp(40)
+        #y: root.height - self.height - toolbar1.height - dp(20)
+        MySwiper:
+            FitImage:
+                source:'scr_1.jpg'
+                radius:[25,]
+        MySwiper:
+            FitImage:
+                source:'scr_2.jpg'
+                radius:[25,]
+        MySwiper:
+            FitImage:
+                source:'scr_3.jpg'
+                radius:[25,]
+        MySwiper:
+            FitImage:
+                source:'scr_4.jpg'
+                radius:[25,]
+        MySwiper:
+            FitImage:
+                source:'scr_5.jpg'
+                radius:[25,]
+    MDFloatingActionButton:
+        icon:'arrow-left'
+        #size_hint_x: .2
+        pos_hint: {'center_x': .1, 'center_y': .9}
+        on_release: 
+            app.redt('select')
+    MDFillRoundFlatIconButton:
+        id:next_icon
+        icon:'arrow-right'
+        text:'Next'
+        size_hint_x: .2
+        pos_hint: {'center_x': .8, 'center_y': .1}
+        on_release: 
+            swiper.set_current(swiper.get_current_index()+1) if swiper.get_current_index() < len(swiper.get_items())-1 else None
+        on_press: 
+            self.icon='check' if swiper.get_current_index() == len(swiper.get_items())-2 else 'arrow-right'
+            self.text='Finish!' if swiper.get_current_index() == len(swiper.get_items())-2 else 'Next'
+            app.redt('home_screen') if swiper.get_current_index()== len(swiper.get_items())-1 else None
+<SelectionScreen>:
+    name:'select'
+    MDScreen:
+        MDFloatLayout:
+            FitImage:
+                source:'background_img.jpg'
+            AsyncImage:
+                source:'logo1.png'
+                anim_delay:0.1
+                size_hint:None, None
+                size:70,70
+                pos_hint:{'center_x':.2,'center_y':.85}
+            TileView:
+                txt:'Caduceus'
+                icon:'app_img.jpg'
+                icon2:'logo1.png'
+                pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            MDSeparator:
+            MDFillRoundFlatIconButton:
+                text: "TAKE TOUR"
+                icon: "view-carousel"
+                size_hint_x: .2
+                pos_hint: {'center_x': .25, 'center_y': .125}
+                on_press:
+                    root.manager.current = 'tour'
+                    root.manager.transition.direction = "right" 
+            MDFillRoundFlatIconButton:
+                text: "CONTINUE"
+                icon: "arrow-right"
+                size_hint_x: .2
+                pos_hint: {'center_x': .75, 'center_y': .125} 
+                on_press:
+                    root.manager.current = 'home_screen'
+                    root.manager.transition.direction = "right" 
+                
+LoadingScreen:
+    name:'loading'
+    MDScreen:
+        MDFloatLayout:
+            FitImage:
+                source:'load_bg.png'
+            AsyncImage:
+                source:'logo1.png'
+                anim_delay:0.1
+                size_hint:None, None
+                size:'150dp','150dp'
+                pos_hint:{'center_x':.5,'center_y':.6}
+            MDSeparator:
+                height: "1dp"
+            MDLabel:
+                text:'Caduceus'
+                bold:True
+                name_theme:'Primary'
+                font_style:'H5'
+                font_name:'Sylfaen'
+                pos_hint:{'center_x':.5,'center_y':.43}
+                color:0,0,0,1
+                size_hint_y: None
+                halign:'center'
+            MDLabel:
+                text:'Loading...'
+                font_style:'Caption'
+                font_name:'Comic'
+                bold:True
+                pos_hint:{'center_x':.5,'center_y':.1}
+                color:0,0,0,1
+                size_hint_y: None
+                halign:'center'
+#signin screen with options as PATIENT, DOCTOR or GUEST
+<HomeScreen>:
+    name: "home_screen"
+    MDScreen:
+        FitImage:
+            source: 'background_img.jpg'
+        FitImage:
+            source:"logo1.png"
+            pos_hint: {"center_x": .5, "center_y": .7}
+            #padding: 4
+            size_hint: None, None
+            size: "200dp", "200dp"
+        MDLabel:
+            text:'Caduceus'
+            font_style:'H5'
+            font_name:'Sylfaen'
+            size_hint_y:None
+            color:0,0,0,1
+            bold:True
+            height:self.texture_size[1]
+            halign:'center'
+            pos_hint: {"center_x": .5, "center_y": .5}
+        TooltipMDIconButton:
+            text:'PATIENT'
+            tooltip_text:'Signin as Patient'
+            theme_icon_color: "Custom"
+            icon_color: 0,0,0,1
+            icon_size: '35dp'
+            icon:'account'
+            pos_hint: {"center_x": .4, "center_y": .4}
+            width:100
+            on_press:
+                root.manager.current = 'p_login_screen'
+                root.manager.transition.direction = "left"
+        TooltipMDIconButton:
+            text:'DOCTOR'
+            tooltip_text:'Signin as Doctor'
+            icon:'doctor'
+            theme_icon_color: "Custom"
+            icon_color: 0,0,0,1
+            icon_size: '35dp'
+            pos_hint: {"center_x": .6, "center_y": .4}
+            width:100
+            on_press: 
+                root.manager.current = 'd_login_screen'
+                root.manager.transition.direction = "left"
+        MDLabel:
+            text:'or'
+            font_style:'Subtitle2'
+            size_hint_y:None
+            bold:True
+            color:0,0,0,1
+            height:self.texture_size[1]
+            halign:'center'
+            pos_hint: {"center_x": .5, "center_y": .275}
+        MDTextButton:
+            text:'Already a member?'
+            color:0,0,0,1
+            italic:True
+            font_style:'Subtitle1'
+            pos_hint: {"center_x": .5, "center_y": .15}
+            width:100
+            on_press: root.manager.current = 'login_screen'
+#Patients login pages with various details
+<P_login_Screen>
+    name: "p_login_screen"
+    LoginCard:
+        title:'Signup as patient'
+        redt:'p_screen'
+        button_txt:'CREATE'
+        prev:'home_screen'
+        sname:'p_login_screen'
+<D_login_Screen>
+    name: "d_login_screen"
+    LoginCard:
+        title:'Signup as doctor'
+        redt:'d_screen'
+        button_txt:'CREATE'
+        prev:'home_screen'
+        sname:'d_login_screen'
+#<MAINScreen>
+    #name: "main.py"
+#login screen with username and password..
+<LoginScreen>:
+    name:'login_screen'
+    LoginCard:
+        title:'Login'
+        redt:'main.py'
+        button_txt:'LOGIN'
+        prev:'home_screen'
+        sname:'login_screen'
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    
+    MDList:
+        spacing:'8dp'
+        padding:'4dp'
+        MDCard:
+            elevation:10
+            size_hint_y:None
+            padding: 2
+            radius: 10
+            FitImage:
+                source:'navbar_img.png'
+                #size_hint_y: .35
+                radius: 36, 36, 0, 0
+        MDLabel:
+            text:'Caduceus'
+            font_style:'Subtitle1'
+            size_hint_y:None
+            name_theme:'Primary'
+            bold:True
+            height:self.texture_size[1]
+
+        MDLabel:
+            text:'project by VIGNESH C'
+            name_theme:'Secondary'
+            font_style:'Caption'
+            size_hint_y:None
+            height:self.texture_size[1]               
+        OneLineAvatarIconListItem:
+            text: "Dashboards"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 1"
+            IconLeftWidget:
+                icon: "home"
+                on_press:
+                    root.screen_manager.current = "scr 1"
+        OneLineAvatarIconListItem:
+            text: "Health Tests"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 2"
+            IconLeftWidget:
+                icon: "widgets"
+                on_press:
+                    root.screen_manager.current = "scr 2"
+        OneLineAvatarIconListItem:
+            text:"Appointments"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 3"
+            IconLeftWidget:
+                icon: "doctor"
+                on_press:
+                    root.screen_manager.current = "scr 3"
+        OneLineAvatarIconListItem:
+            text:"Records"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 4"
+            IconLeftWidget:
+                icon: "shape"
+                on_press:
+                    root.screen_manager.current = "scr 4"
+        OneLineAvatarIconListItem:
+            text:"Documents"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 4.5"
+            IconLeftWidget:
+                icon: "shape"
+                on_press:
+                    root.screen_manager.current = "scr 4.5"
+        OneLineAvatarIconListItem:
+            text:"Settings"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 5"
+            IconLeftWidget:
+                icon: "equalizer"
+                on_press:
+                    root.screen_manager.current = "scr 5"
+
+        OneLineAvatarIconListItem:
+            text:"About us"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr 6"
+            IconLeftWidget:
+                icon: "settings"
+                on_press:
+                    root.screen_manager.current = "scr 6"
+                
+#mainscreen --- Navigation drawer
+
+<MAINScreen>:
+    id:main
+    name:'main.py'
+    MDTopAppBar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        elevation: 5
+        title: "Caduceus"
+        font_name:'Sylfaen'
+        elevation:5
+        shadow_color:'teal'
+        color:1,.5,1,1
+        radius_left:'45dp'
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open"),'Menu']]
+        right_action_items: [["refresh", lambda x: root.reload_all(),'Refresh'],["account-circle", lambda x: app.set_screen('paccount_screen'),'Account']]
+
+    MDNavigationLayout:
+        x: toolbar.height
+        MDScreenManager:
+            id: screen_manager
+            # Main or Home screen ----------------------------------------------------------------------------------------------------------------
+            MDScreen:
+                name: "scr 1"
+                MDLabel:
+                    text:'Dashboards'
+                    font_style:'H4'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .825}
+                MDLabel:
+                    id:getname
+                    font_style:'H6'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .75}
+                MDLabel:
+                    id:getemail
+                    font_style:'H6'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .625}
+                
+                MDFloatingActionButtonSpeedDial:
+                    icon:'phone'
+                    data:app.data
+                    root_button_anim:True
+                    hint_animation:True
+                    bg_color_root_button:"red"
+                    bg_color_stack_button:"green"
+                    bg_hint_color:'grey'
+                    color_icon_stack_button:'white'
+                    label_text_color: "white"
+                
+            #Test screen ------------------------------------------------------------------------------------------------------------------------
+
+            MDScreen:
+                name: "scr 2"
+                height: root.height - toolbar.height - dp(40)
+                #BMI Screen -------------------------------------------------------------------------------------------------------------------
+                MDBottomNavigation:
+                    panel_color: .2, .2, .2, 1
+                    MDBottomNavigationItem:
+                        name: 'screen 1'
+                        text: 'BMI'
+                        icon: 'bmi1.png'
+                        selected_color_background:0,0,1,.4
+                        TileView:
+                            txt:'Body Mass Index'
+                            icon:'bmi.jpg'
+                            icon2:'bmi1.png'
+                        SampCard:
+                            pos_hint: {"center_x": .5, "center_y": .25}
+                            title:'Check your BMI !'
+                            tb1:'Height (in meters)'
+                            tb2: 'Weight (in kg)'
+                            icon:'back'
+                            button_txt:'Check'
+                            type:'bmi'
+                    #BP calculating screen -------------------------------------------------------------------------------------------------------
+                    MDBottomNavigationItem:
+                        name: 'screen 2'
+                        text: 'BP'
+                        icon: 'bp1.png'
+                        selected_color_background:0,0,1,.4
+                        TileView:
+                            txt:'Blood Pressure'
+                            icon:'bp.png'
+                            icon2:'bp1.png'
+                        SampCard:
+                            pos_hint: {"center_x": .5, "center_y": .25}
+                            title:'Check your BP !'
+                            tb1:'Systolic (mmhg)'
+                            tb2: 'Diastolic (mmhg)'
+                            icon:'back'
+                            button_txt:'Check'
+                            type:'bp'
+            MDScreen:
+                name: "scr 3"
+                height: root.height - toolbar.height - dp(40)
+                MDTabs:
+                    #tab_padding:[10,10,10,10]
+                    tab_indicator_anim:True
+                    tab_bar_height:'70dp'
+                    size_hint_max_x:None
+                    tab_hint_x:False
+        #tab_indicator_anim: False
+                    Tab:
+                        title:'All Doctors'
+                        icon:'doctor'
+                        font_style:'H5'
+                        bold:True
+                        title_icon_mode:'Top'
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: root.height
+                                padding: 10
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: doc_list
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+                        
+                    Tab:
+                        title:"Active"
+                        icon:'origin'
+                        font_style:'H5'
+                        title_icon_mode:'Top'
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: root.height
+                                padding: 10
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: active_list
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+                    Tab:
+                        title:"Past/Cancelled"
+                        icon:'order-bool-ascending'
+                        title_icon_mode:'Top'
+                        font_style:'H5'
+                        bold:True
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: root.height
+                                padding: 10
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: past_cancel_list
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+            MDScreen:
+                name: "scr 4"
+                height: root.height - toolbar.height - dp(40)
+                MDScrollView:
+                    do_scroll_y: True
+                    do_scroll_x: False
+                    BoxLayout:
+                        orientation: "vertical"
+                        size_hint_y: None
+                        height: root.height
+                        padding: 10
+                        BoxLayout:
+                            orientation:'vertical'
+                            cols: 1
+                            id: record_list
+                            spacing: "15dp"
+                            padding: "15dp"
+                            adaptive_height: True
+                            height: self.minimum_height
+                            pos_hint:{'center_x':.5}
+            MDScreen:
+                name: "scr 4.5"
+                height: root.height - toolbar.height - dp(40)
+                MDTabs:
+                    Tab:
+                        title:"All documents"
+                        icon:'file'
+                        title_icon_mode:'Top'
+                        font_style:'H5'
+                        bold:True
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                height: root.height
+                                padding: 10
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: document_list
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+                        MDFloatingActionButton:
+                            icon:'plus'
+                            on_release: root.add_document()    
+            MDScreen:
+                name: "scr 5"
+                SettingsBox:
+                    type:'p'
+            MDScreen:
+                name: "scr 6"
+                MDLabel:
+                    text: "About us"
+                    halign: "center"
+                    font_name:'Corbel'
+                AboutUsBox:
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 25, 25, 0)
+            scrim_color:0,0,0,.8
+            padding:20,20,12,8      
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer 
+<DContentNavigationDrawer>:
+    orientation: "vertical"
+    MDList:
+        spacing:'8dp'
+        padding:'8dp'
+
+        MDLabel:
+            text:'Health CheckUp App'
+            font_style:'Subtitle1'
+            size_hint_y:None
+            bold:True
+            height:self.texture_size[1]
+
+        MDLabel:
+            text:'Created by VIGNESH.C'
+            font_style:'Caption'
+            size_hint_y:None
+            height:self.texture_size[1]               
+        OneLineAvatarIconListItem:
+            text: "Home"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr_1"
+            IconLeftWidget:
+                icon: "home"
+                on_press:
+                    root.screen_manager.current = "scr_1"
+
+        OneLineAvatarIconListItem:
+            text: "Appoinments"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr_2"
+            IconLeftWidget:
+                icon: "widgets"
+                on_press:
+                    root.screen_manager.current = "scr_2"
+        OneLineAvatarIconListItem:
+            text:"Settings"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr_4"
+            IconLeftWidget:
+                icon:'shape'
+                on_press:
+                    root.screen_manager.current = "scr_4"
+        OneLineAvatarIconListItem:
+            text:"About us"
+            on_press:
+                root.nav_drawer.set_state("close")
+                root.screen_manager.current = "scr_5"
+            IconLeftWidget:
+                icon: 'ab-testing'
+                on_press:
+                    root.screen_manager.current = "scr_5"
+<DMainScreen>:
+    id:doctor_page
+    name:'doctor.py'
+    MDTopAppBar:
+        id: toolbar1
+        pos_hint: {"top": 1}
+        elevation: 5
+        title: "Caduceus"
+        color:1,.5,1,1
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+        right_action_items: [["refresh", lambda x: root.reload_all(),'Refresh'],["account-circle", lambda x: app.redt('daccount_screen')]]
+            
+    MDNavigationLayout:
+        x: toolbar1.height
+        MDScreenManager:
+            id: screen_manager
+            # Main or Home screen ----------------------------------------------------------------------------------------------------------------
+
+            MDScreen:
+                name: "scr_1"
+                MDLabel:
+                    text:'Dashboards'
+                    font_style:'H4'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .825}
+                MDLabel:
+                    id:getname
+                    font_style:'H6'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .75}
+                MDLabel:
+                    id:getemail
+                    font_style:'H6'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .625}
+                        #root.ids.d_name_app.text = root.manager.get_screen("d_screen").ids.d_name.text
+                MDLabel:
+                    id:getearnings
+                    font_style:'H6'
+                    font_name:'Sylfaen'
+                    size_hint_y:None
+                    bold:True
+                    pos_hint: {"center_x": .525, "center_y": .5}
+            #Test screen ------------------------------------------------------------------------------------------------------------------------
+
+            MDScreen:
+                name: "scr_2"
+                MDTabs:
+                    Tab:
+                        title:"Active"
+                        icon:'origin'
+                        title_icon_mode:'Top'
+                        font_style:'H5'
+                        bold:True
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                padding: 10
+                                height:root.height
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: active_listt
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+                    Tab:
+                        title:"Past"
+                        icon:'order-bool-ascending'
+                        title_icon_mode:'Top'
+                        font_style:'H5'
+                        bold:True
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                padding: 10
+                                height:root.height
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: past_listt
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+                    Tab:
+                        title:"Rejected/Cancelled"
+                        icon:'account-cancel'
+                        title_icon_mode:'Top'
+                        font_style:'H5'
+                        bold:True
+                        MDScrollView:
+                            do_scroll_y: True
+                            do_scroll_x: False
+                            BoxLayout:
+                                orientation: "vertical"
+                                size_hint_y: None
+                                padding: 10
+                                height:root.height
+                                BoxLayout:
+                                    orientation:'vertical'
+                                    cols: 1
+                                    id: rejected_listt
+                                    spacing: "15dp"
+                                    padding: "15dp"
+                                    adaptive_height: True
+                                    height: self.minimum_height
+                                    pos_hint:{'center_x':.5}
+            MDScreen:
+                name: "scr_4"
+                DSettingsBox:
+                    type:'d'
+            MDScreen:
+                name:'scr_5'
+                AboutUsBox:
+                    pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 40, 40, 0)
+            anchor:'left'
+            DContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+# This screen will pop when the user has created a new patient account and details of them are  collected
+<PatientScreen>:
+    name:'p_screen'
+    GetDataCard:
+        icon:'p'
+        type:'p'
+<UserInfoScreen>:
+    name:'user_info'
+    SampCard:
+        tb1:'Email'
+        tb1_icon:'gmail'
+        tb2_icon:'eye-off'
+        tb2:'Password'
+        label:'LOGIN'
+        button_txt:'Process'
+        redt:'main.py'
+        icon:'home'
+
+        
+
+
+#Appears when a new doctor account is created
+<DoctorScreen>:
+    name:'d_screen'
+    GetDataCard:
+        icon:'d'
+        type:'d'
+<DoctorScreen2>:
+    name:'d_screen2'
+    GetDataCard2:
+        icon:'d'
+        type:'d2'
+<PAccountPage>:
+    name:'paccount_screen'
+    MDFloatingActionButton:
+        icon:'arrow-left'
+        pos_hint: {'center_x': .1, 'center_y': .9}
+        on_release: 
+            app.redt('main.py')
+    DisplayDataCard:
+        icon:'p'
+        type:'p'
+    #UserInfoBox:
+       # type:'p'
+       # icon:'p'
+    # root.ids.p_addr_app.text = root.manager.get_screen("p_screen").ids.p_addr.text
+<HelpScreen>:
+    name:'help_screen'
+    MDFillRoundFlatIconButton:
+        text:'Take tour'
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        on_release:app.redt('tour')
+<DAccountPage>
+    name:'daccount_screen'
+    MDFloatingActionButton:
+        icon:'arrow-left'
+        size_hint_x: .2
+        pos_hint: {'center_x': .1, 'center_y': .9}
+        on_release: 
+            app.redt('doctor.py')
+    DisplayDataCard:
+        icon:'d'
+        type:'d'
+<RootWidget>:
+    LoadingScreen:
+        name:'loading'
+    HomeScreen:
+        name: "home_screen"
+    SelectionScreen:
+        name:'select'
+    AppTourScreen:
+        name:'tour'
+    D_login_Screen:
+        name:'d_login_screen'
+    P_login_Screen:
+        name: "p_login_screen"
+    MAINScreen:
+        name:'main.py'
+    LoginScreen:
+        name:'login_screen'
+    DMainScreen:
+        name:'doctor.py'
+    PatientScreen:
+        name:'p_screen'
+    UserInfoScreen:
+        name:'user_info'
+    DoctorScreen:
+        name:'d_screen'
+    PAccountPage:
+        name:'paccount_screen'
+    HelpScreen:
+        name:'help_screen'
+    DAccountPage:
+        name:'daccount_screen'
+    DoctorScreen2:
+        name:'d_screen2'
+    

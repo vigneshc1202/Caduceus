@@ -1,0 +1,43 @@
+{
+    "id": {
+        "email": "",
+        "passw": "",
+        "acc_type": ""
+    },
+    "pacc_dtls": {
+        "dtls": {
+            "name": null,
+            "ph_no": null,
+            "age": null,
+            "addr": null
+        },
+        "emerg": {
+            "ambulance": 108,
+            "home": null,
+            "doctor": null
+        },
+        "documents": [],
+        "appoin": [],
+        "tests": {
+            "BMI": [],
+            "BP": []
+        }
+    },
+    "dacc_dtls": {
+        "dtls": {
+            "name": null,
+            "ph_no": null,
+            "age": null,
+            "addr": null,
+            "qlf": null,
+            "exp": null,
+            "reports": [],
+            "appoin": [],
+            "earnings": 0,
+            "cust": {},
+            "fee": null,
+            "about_me": null
+        }
+    },
+    "login_count": 10
+}
