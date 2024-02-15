@@ -1,4 +1,4 @@
-![Uploading medical-caduceus-symbol-design-illustration-eps-format-suitable-for-your-design-needs-logo-illustration-animation-etc-vector.jpg…]()
+![medical-caduceus-symbol-design-illustration-eps-format-suitable-for-your-design-needs-logo-illustration-animation-etc-vector](https://github.com/vigneshc1202/Caduceus/assets/117792967/a05e4a33-c6f0-4491-8b88-48da5113f18c)
 
 # Caduceus - A Health Checkup App
 Introducing Caduceus: Your Health, Your Way
