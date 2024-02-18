@@ -10,7 +10,7 @@ def exist(email:str,passw,scr):
     try:
         # if user is new, creating an file
         with open(email+'.json','x') as f:
-            with open(r'C:\Users\Aparna\Music\codes\samp.json') as m:
+            with open(r'C:\Users\Caduceus\Music\codes\samp.json') as m:
                 cont=load(m)
                 dump(cont,f,indent=4)
         login(email,passw)
@@ -50,7 +50,7 @@ def store(email,acc,head,subhead,nv):
         f.seek(0)
         cont[acc][head][subhead]=nv
         dump(cont,f,indent=4)
-#Checking 
+#Checking if credentials are correct or not
 def clogin(email:str,passw:str):
     with open(email+'.json','r+') as f:
         cont=load(f)
@@ -60,7 +60,7 @@ def clogin(email:str,passw:str):
             return 1
         else:
             return 0
-# Login count functions --------------------------------------------------------------
+# Login count function
 def login_cnt_inc(email,n=0):
     with open(email+'.json','r+') as f:
         cont=load(f)
@@ -196,7 +196,6 @@ def load_ddtls2(email,fee,about_me,use):
         if use==1:
             add_fee_doclist(email,fee)
         dump(cont,f,indent=4)
-# ----------------------------------------------here---------------------------------------
 def get_pdtls(email):
     try:
         if email=='':
@@ -244,7 +243,7 @@ def get_ddtls2(email):
 def get_total_records(email):
     if email=='':
         email=load_current_acc()
-    fn=f'C:\\Users\\Aparna\\Music\\codes\\{email+".json"}'
+    fn=f'C:\\Users\\Caduceus\\Music\\codes\\{email+".json"}'
     with open(fn,'r+') as f:
         cont=load(f)
         f.seek(0)
@@ -284,23 +283,23 @@ def get_aboutdoc(email):
         return about,fee
 # App start functions ---------------------
 def save_current_acc(email):
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         f.truncate()
         f.seek(0)
         sv_type=email
         f.writelines(sv_type)
 def load_current_acc():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r') as f:
         #cnt=eval(f.read())
         cnt=f.read()
         #cnt[0]=cnt[0]
         email=cnt
         return email
 def clear_current_acc():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         f.truncate()
 def check_last_user():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         email=f.readlines()
         #print(email)
         if email==[]:
@@ -308,16 +307,16 @@ def check_last_user():
         else:
             return 1
 def guest_login_options():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         f.truncate()
         f.seek(0)
         f.write('guest')
 def reset_current_user():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         f.truncate()
         print('Current user cleared...')
 def get_curr_user():
-    with open(r'C:\Users\Aparna\Music\codes\curr_user.txt','r+') as f:
+    with open(r'C:\Users\Caduceus\Music\codes\curr_user.txt','r+') as f:
         n=f.read()
        # print('EMAIL:',n)
         return n
@@ -331,7 +330,7 @@ def doc_add_dtls(email,n,qlf,exp,fee=0):
         except:
             print('File read!!')
 def get_doctor(n):
-    file='C:\\Users\\Aparna\\Music\\codes\\doctors_list.csv'
+    file='C:\\Users\\Caduceus\\Music\\codes\\doctors_list.csv'
     with open(file,'r',newline='\r\n') as f:
         #cnt=[email,n,qlf,exp,fee]
         try:
@@ -341,7 +340,7 @@ def get_doctor(n):
             print('File read!!')
         return lst[n]
 def get_total_doc():
-    fn='C:\\Users\\Aparna\\Music\\codes\\doctors_list.csv'
+    fn='C:\\Users\\Caduceus\\Music\\codes\\doctors_list.csv'
     with open(fn,'r+',newline='\r\n') as f:
         #cnt=[email,n,qlf,exp,fee]
         try:
@@ -553,7 +552,6 @@ def cancel_appoin(e,d,t,s):
                     if i[2]==t:
                         i[3]='cancelled-booking'
         dump(cont,f,indent=4)
-# used by doctor whenever they need to change the status
 def change_appoin_status(e,d,t,nstatus):
     e=str(e)
     d=str(d)
@@ -613,7 +611,7 @@ def get_all_documents(email):
         x=cont['pacc_dtls']['documents']
         return x
 def store_documents(file):
-    email=f"C:\\Users\\Aparna\\Music\\codes\\{get_curr_user()}"
+    email=f"C:\\Users\\Caduceus\\Music\\codes\\{get_curr_user()}"
     with open(email+'.json','r+') as f:
         cont=load(f)
         f.seek(0)
@@ -621,15 +619,8 @@ def store_documents(file):
         old.append(file)
         dump(cont,f,indent=4)
 def get_absolute_path(file):
-    return f"C:\\Users\\Aparna\\Music\\codes\\{file}"
+    return f"C:\\Users\\Caduceus\\Music\\codes\\{file}"
 def delete_document(file):
-    email=f"C:\\Users\\Aparna\\Music\\codes\\{get_curr_user()}"
+    email=f"C:\\Users\\Caduceus\\Music\\codes\\{get_curr_user()}"
     os.remove(file)
     print('File removed succ...')
-def c():
-    with open(r'C:\Users\Aparna\Music\codes\sam.json','r+') as f:
-        data=load(f)
-        f.seek(0)
-        data['id']['email']='ccekaran@gmail.com'
-        data['id']['passw']="hello123"
-        dump(data,f,indent=4)
