@@ -5,7 +5,7 @@ Introducing Caduceus: Your Health, Your Way
 
 # App Screenshot, Video & APK
 
-![GDrive](https://drive.google.com/drive/folders/1WdtQfjzwQL1mTOYZ5YQ3gyYqybFs4N-m)
+(https://drive.google.com/drive/folders/1WdtQfjzwQL1mTOYZ5YQ3gyYqybFs4N-m)
 
 ## *Top features*
 
