@@ -40,11 +40,13 @@ import os
 from time import *
 import datetime
 from kivymd.uix.snackbar import MDSnackbar,MDSnackbarActionButton,MDSnackbarCloseButton
+# Enhances the colour and re-sizing to a mobile look.
 Window.clearcolor = (0, 0.6, 0.1, 1.0)
 Window.size = (400, 625)
+# Global variables used to store the current users email
 user_email = ''
 doc_selected=''
-#user_email=APP.load_current_acc()
+# Different screens with their functions
 class LoadingScreen(Screen):
     pass
 class AppTourScreen(Screen):
@@ -625,7 +627,7 @@ class MyCard(MDCard):
         self.parent.remove_widget(self)
 class ListWidget(OneLineAvatarIconListItem):
     pass
-decimal = 2
+# Main App class 
 class MainApp(MDApp):
     root_widget = RootWidget()
     def on_start(self):
@@ -688,16 +690,11 @@ class MainApp(MDApp):
         app=MDApp.get_running_app()
         screen = self.root.get_screen('p_screen').ids.p_name.text
         print(screen)
-        #test()
-        #MDApp.get_running_app().root.ids.paccount_screen.ids.p_name_.text = client_name
         self.root.get_screen('paccount_screen').ids.p_name_.text=screen
-        #app.root.current=screen
     def get_screen(self, screen):
         self.current = screen
     def set_screen(self,screen1):
-        MDApp.get_running_app().root.current = screen1
-    def sh(self):
-        print("Its working!!! ------------------------")
+        MDApp.get_running_app().root.current = screen
     def process(self,sname):
         sn=str(sname)
         print(sn)
@@ -736,11 +733,6 @@ class MainApp(MDApp):
         app.redt('select')
     def msg(self,m):
         toast(m)
-
+# Calling the app to run
 if __name__ == "__main__":
-    #try:
     MainApp().run()
-    #except:
-       # print('An error occured!!')
-       ## sleep(2)
-       # exit()
