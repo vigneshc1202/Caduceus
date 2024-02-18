@@ -1,9 +1,11 @@
-![medical-caduceus-symbol-design-illustration-eps-format-suitable-for-your-design-needs-logo-illustration-animation-etc-vector](https://github.com/vigneshc1202/Caduceus/assets/117792967/a05e4a33-c6f0-4491-8b88-48da5113f18c)
+![Caduceus-logo](https://github.com/vigneshc1202/Caduceus/assets/117792967/a05e4a33-c6f0-4491-8b88-48da5113f18c)
 
 # Caduceus - A Health Checkup App
 Introducing Caduceus: Your Health, Your Way
-## Announcement!
-The APK will be released online shortly.
+
+# App Screenshot, Video & APK
+
+![GDrive](https://drive.google.com/drive/folders/1WdtQfjzwQL1mTOYZ5YQ3gyYqybFs4N-m)
 
 ## *Top features*
 
@@ -23,6 +25,12 @@ The APK will be released online shortly.
 
 👥 Join a Thriving Community: Connect with patients, collaborate with fellow healthcare professionals, and foster a supportive network within the Caduceus community.
 
+### Top App features
+
+• Automatic login: Allows users to login to thier account easily without entering their credentials multiple times for accessing their data.
+• Automatic logout: Provides security and allows the user to remember the password by Auto-signout from their account after a certain time.
+• Accessible on multiple devices: The app can run on any device like Anddoid, iOS, Windows, Linux, MacOS, Tablet etc.
+
 ### 🎉 **Why Choose Caduceus?**
 
 🔐 Security First: Your health data is precious. Caduceus ensures top-notch security measures to protect your sensitive information.
@@ -35,7 +43,5 @@ _Your Health, Your Way. Caduceus - Where Wellness Meets Technology._
 
 # *Journey...*
 
-The app was initially planned for a school project. Later as many new features were added into it, it was planned to publish it as a mobile app. The app was built using Python, Kivy and KivyMD frameworks.
-It took about 10 months to learn the frameworks needed to build the app. The app apk will be released online.
-
+The app was initially planned for a school project. The app was built using Python, Kivy and KivyMD frameworks. Many files were used to store the data privately. JSON files were used to save users data; Text files were used to save the current users email id; CSV files were used to save the doctors details for appointment booking.
 
