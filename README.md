@@ -28,7 +28,9 @@ Introducing Caduceus: Your Health, Your Way
 ### Top App features
 
 • Automatic login: Allows users to login to thier account easily without entering their credentials multiple times for accessing their data.
+
 • Automatic logout: Provides security and allows the user to remember the password by Auto-signout from their account after a certain time.
+
 • Accessible on multiple devices: The app can run on any device like Anddoid, iOS, Windows, Linux, MacOS, Tablet etc.
 
 ### 🎉 **Why Choose Caduceus?**
