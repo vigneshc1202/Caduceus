@@ -1,9 +1,9 @@
-![Caduceus-logo](https://github.com/vigneshc1202/Caduceus/assets/117792967/a05e4a33-c6f0-4491-8b88-48da5113f18c)
+![Caduceus_banner](https://github.com/vigneshc1202/Caduceus/assets/117792967/26f36494-9b6f-4e6b-95ea-644b58316f1c)
 
 # Caduceus - A Health Checkup App
 Introducing Caduceus: Your Health, Your Way
 
-# App Screenshot, Video & APK
+## App Screenshots, Video & APK
 
 (https://drive.google.com/drive/folders/1WdtQfjzwQL1mTOYZ5YQ3gyYqybFs4N-m)
 
